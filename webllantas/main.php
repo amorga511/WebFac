@@ -64,7 +64,22 @@
         	</div>
             <!-- Div Contenido -->
             <div class="container-fluid c_anime_div" ng-show="dvInicio" style="padding:20px; padding-top:60px;">
-                
+                <div class="col-sm-2 content_menu_interactive">
+                    <div class="col-xm-12 subdiv_menu_interactive" ng-click="switchMenu(3)">
+                    <center>
+                        <span class="lbl_menu_int">Facturación</span><br />
+                        <img src="img/invoice.png" width="90%" />
+                    </center>
+                    </div>
+                </div>
+                <div class="col-sm-2 content_menu_interactive" ng-click="switchMenu(2)">
+                    <div class="col-xm-12 subdiv_menu_interactive">
+                    <center>
+                        <span class="lbl_menu_int">Caja</span><br />
+                        <img src="img/cashier.png" width="90%" />
+                    </center>
+                    </div>
+                </div>
             </div>
             <!-- Fin Div Contenido -->
         </div><!-- Fin Dvi Contenido -->      

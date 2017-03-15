@@ -35,7 +35,7 @@ appM.controller('appControl1', function($scope,$http) {
                 window.location.replace('../../views/facturacion/index.php');
             break;
             case 99:
-                $http.post('http://192.168.0.254/webllantas/server/svrConsultas.php', {op:104}).then(function(vResult){
+                $http.post('http://localhost/webllantas/server/svrConsultas.php', {op:104}).then(function(vResult){
                     window.location.reload();
                 }); 
             break;
@@ -48,23 +48,23 @@ appM.controller('appControl1', function($scope,$http) {
     }
 
     function getTiendas(){
-        $http.post('http://192.168.0.254/webllantas/server/svrConsultas.php', {op:101}).then(function(vResult){
+        $http.post('http://localhost/webllantas/server/svrConsultas.php', {op:101}).then(function(vResult){
             $scope.arrTiendas=vResult.data; 
         }); 
     }
 
     function getEmpleados(){
-        $http.post('http://192.168.0.254/webllantas/server/svrConsultas.php', {op:102, cargo:100}).then(function(vResult){
+        $http.post('http://localhost/webllantas/server/svrConsultas.php', {op:102, cargo:100}).then(function(vResult){
             $scope.arrEmpleados=vResult.data;
         }); 
     }
 
     function getCajas(){
-        $http.post('http://192.168.0.254/webllantas/server/svrConsultas.php', {op:103, tienda:'TGU001', estado:0}).then(function(vResult){
+        $http.post('http://localhost/webllantas/server/svrConsultas.php', {op:103, tienda:'TGU001', estado:0}).then(function(vResult){
             $scope.arrCajas=vResult.data;
             //alert(vResult.data);
         });
-        $http.post('http://192.168.0.254/webllantas/server/svrConsultas.php', {op:103, tienda:'TGU001', estado:1}).then(function(vResult){
+        $http.post('http://localhost/webllantas/server/svrConsultas.php', {op:103, tienda:'TGU001', estado:1}).then(function(vResult){
             $scope.arrCajasOpen=vResult.data;
             //alert(vResult.data);
         }); 
@@ -117,7 +117,7 @@ appM.controller('appControl1', function($scope,$http) {
         fech_open += ":" + filldate($scope.caja_f_apertura.getSeconds());
 
         if($scope.caja_tienda != "0" &&  $scope.caja_cajero != "0" &&  $scope.caja_numero != "0" && parseInt($scope.caja_monto) >= 0){
-            $http.post('http://192.168.0.254/webllantas/server/svrTransacciones.php', {op:201, tienda:$scope.caja_tienda, cajero:$scope.caja_cajero,
+            $http.post('http://localhost/webllantas/server/svrTransacciones.php', {op:201, tienda:$scope.caja_tienda, cajero:$scope.caja_cajero,
                                                                 caja:$scope.caja_numero, monto:$scope.caja_monto, f_open:fech_open}).then(function(vResult){
                 msjR = vResult.data.split(',');
                 if(parseInt(msjR[0])==1){
@@ -133,7 +133,7 @@ appM.controller('appControl1', function($scope,$http) {
     }
 
     $scope.f_detalle = function(){
-        $http.post('http://192.168.0.254/webllantas/server/svrConsultas.php', {op:105, tienda:'TGU001', caja:$scope.num_caja_c}).then(function(vResult){
+        $http.post('http://localhost/webllantas/server/svrConsultas.php', {op:105, tienda:'TGU001', caja:$scope.num_caja_c}).then(function(vResult){
             $scope.arrDetalleCaja=vResult.data;
             //alert(vResult.data);
         }); 
@@ -142,7 +142,7 @@ appM.controller('appControl1', function($scope,$http) {
     $scope.f_save_cierre = function(){
         if($scope.arrDetalleCaja[0].factura.length >0)
         {
-            $http.post('http://192.168.0.254/webllantas/server/svrTransacciones.php', {op:203, caja:$scope.num_caja_c}).then(function(vResult){
+            $http.post('http://localhost/webllantas/server/svrTransacciones.php', {op:203, caja:$scope.num_caja_c}).then(function(vResult){
                     //alert(vResult.data);
                     msjR = vResult.data.split(',');
                         if(parseInt(msjR[0])==1){

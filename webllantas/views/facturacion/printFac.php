@@ -8,8 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 <link rel="stylesheet" href="../../css/bootstrap.min.css" />
-<link rel="stylesheet" href="../../css/css_main.css" />
-<link rel="stylesheet" href="../../css/simple-sidebar.css" />
 <?php
 
     if(isset($_SESSION["login"])){
@@ -28,6 +26,16 @@
         $vItems = [];
         $vCantLetras = "0/100";
 
+        $cai="";
+
+        $rtn = "";
+        $empresa = "";
+        $eDir = "";
+        $eTel = "";
+        $eEmail = "";
+
+
+
         $vCliente = "";
         $vTel = "";
         $vRTN ="";
@@ -43,28 +51,18 @@
         $vEfectivo = 0;
         $vTarjeta = 0;
 
-        $cai="";
-        $rtin = "";
+        
         $facDesd="";
         $facHasta="";
         $fechLimite ="";
-        $empresa = "Importaciones y Llanticentro JIREH";
 
         include '../../server/dblink.php';
-        $vSQL = "SELECT * FROM tbl_cai_control where estado=1 ";
-        if($resC = $con->query($vSQL)){
-            while($rowC = $resC->fetch_array()){
-                $cai = $rowC[3];
-                $rtn = $rowC[2];
-                $facDesd = $rowC[4];
-                $facHasta = $rowC[5];
-                $fechLimite = $rowC[6];
-            }
-        }
 
         $vQuery = "SELECT * FROM tbl_facturas where id='" .  $numFac . "'";
         if($res1 = $con->query($vQuery)){
             $rows = $res1->fetch_assoc();
+
+            $cai = $rows["cai"];
 
             $vFecha = $rows["fech_fac"];
             $vCliente = $rows["cliente"];
@@ -90,6 +88,29 @@
                 array_push($vItems, array("cod"=>$row2["cod_item"],"desc"=>$row2["detalle"], "und"=>$row2["unidades"],"price"=>$row2["precio"], "stot"=>$sTot));
             }
         }
+
+        $vSQL = "SELECT * FROM tbl_cai_control where cai='" . $cai . "'";
+        if($resC = $con->query($vSQL)){
+            while($rowC = $resC->fetch_array()){
+                //$cai = $rowC[3];
+                //$rtn = $rowC[2];
+                $facDesd = $rowC[4];
+                $facHasta = $rowC[5];
+                $fechLimite = $rowC[6];
+            }
+        }
+
+        $vSQL = "SELECT * FROM tbl_tiendas";
+        if($resC = $con->query($vSQL)){
+            while($rowC = $resC->fetch_array()){
+                //$cai = $rowC[3];
+                $rtn = $rowC[5];
+                $empresa = $rowC[1];
+                $eDir = $rowC[2];
+                $eTel = $rowC[3];
+                $eEmail = $rowC[4];
+            }
+        }
     }
 ?>
 
@@ -99,7 +120,7 @@
     /*background-color: gary;*/
 }
 .font1{
-    font-family: arial;
+    font-family: 'Time New Roman';
     font-size:14px;
     line-height: 1.3;
     padding-left: 2px;
@@ -108,7 +129,7 @@
 
 .font2{
     line-height: 1.3;
-    font-family: arial;
+    font-family: 'Time New Roman';
     font-size: 12px;
     padding-left: 2px;
     padding-right: 2px;
@@ -116,7 +137,7 @@
 
 .font3{
     line-height: 1.3;
-    font-family: arial;
+    font-family: 'Time New Roman';
     font-size: 12px;
     text-align: middle;    
     padding: 2px;
@@ -131,11 +152,13 @@
 <div id="dvBody">
 <center>
     <br />
-    <img src="../../img/logo.png" width="80px" height="80px" style="margin-bottom:10px" /><br>
+    <img src="../../img/logoFac.png" width="150px" height="80px" style="margin-bottom:10px" /><br>
     <b><div class="font1"><?= $empresa; ?></div></b>
-    <div class="font2" >RNT: <?= $rtn; ?></div>
-    <div class="font2">Tel: 00000000</div>
-    <div class="font2">CAI</div>
+    <div class="font2" >RTN: <?= $rtn; ?></div>
+    <div class="font2"><?= $eDir; ?></div>
+    <div class="font2">Tel: <?= $eTel; ?></div>
+    <div class="font2">E-mail: <?= $eEmail; ?></div>
+    <div class="font2" style="margin-top:5px">CAI</div>
     <div class="font2"><?= $cai; ?></div>
    
     <div class="font2">Desde <?= $facDesd; ?></div>
@@ -146,9 +169,9 @@
     <div class="font1"><b>Factura #</b></div>
     <div class="font1"><b><?= $numFac ?></b></div>
     <div class="font1">Fecha: <?= $vFecha ?></div>
-    <div class="font1">Caja <?= $vCaja ?></div>
-    <div class="font1">Cajero <?= $vCajero ?></div>
-    <div class="font1">Vendedor <?= $vVendedor ?></div>
+    <div class="font1">Caja: <?= $vCaja ?></div>
+    <div class="font1">Cajero: <?= $vCajero ?></div>
+    <div class="font1">Vendedor: <?= $vVendedor ?></div>
 
     <div class="font1" style="text-align: left">Cliente: <?= $vCliente ?></div>
     <div class="font1" style="text-align: left">Telefono: <?= $vTel ?></div>
@@ -191,7 +214,7 @@
     </div>
 
     <div class="row font1" style="margin: 0px; text-align: right; margin-top: 8px">
-        <div class="col-xs-7" style="padding-top:5px"><b>EFECTIVO L.</b></div>
+        <div class="col-xs-7" style="padding-top:0px"><b>EFECTIVO L.</b></div>
         <div class="col-xs-5" style="padding-right:2px"><b><?= $vEfectivo ?></b></div>
     </div>
     <div class="row font1" style="margin: 0px; text-align: right;">
@@ -200,8 +223,9 @@
     </div>
 
     <div class="font1" style="text-align: left; margin-top:6px;"><?= $vCantLetras; ?></div>
-    <br>
-    <div class="font1" style="text-align: left;">***************************************************</div>
+    <br />
+    <div class="font1" style="text-align: left;">*************************************</div>
+    <div class="font1"><b>!! Gracias por su Compra !!</b></div>
     <br /><br/>-
 </center>
 </div>

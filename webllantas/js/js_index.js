@@ -9,7 +9,7 @@ appM.controller('appControl1', function($scope,$http) {
 
    $scope.login = function(){
         if($scope.user.length >0 && $scope.pwd.length>0){
-            $http.post('http://192.168.0.254/webllantas/server/svrConsultas.php', {op:100, usr:$scope.user, pwd:$scope.pwd}).then(function(vResult){
+            $http.post('http://localhost/webllantas/server/svrConsultas.php', {op:100, usr:$scope.user, pwd:$scope.pwd}).then(function(vResult){
                 //alert(vResult.data);
                 if(vResult.data.cod==1){
                     //setTimeout(function () { window.location.replace("main.php");}, 2000);

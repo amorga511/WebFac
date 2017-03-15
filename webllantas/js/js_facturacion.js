@@ -36,7 +36,7 @@ appM.controller('appControl1', function($scope,$http) {
                 window.refresh();               
             break;
             case 99:
-                $http.post('http://192.168.0.254/webllantas/server/svrConsultas.php', {op:104}).then(function(vResult){
+                $http.post('http://localhost/webllantas/server/svrConsultas.php', {op:104}).then(function(vResult){
                     window.location.reload();
                 }); 
             break;
@@ -90,7 +90,7 @@ appM.controller('appControl1', function($scope,$http) {
             $scope.arr_generales.nota = $scope.vNota;
 
             if($scope.arr_generales.total>0){
-                $http.post('http://192.168.0.254/webllantas/server/svrTransacciones.php', {op:202, arrItems:$scope.arr_items, arrGenerales:$scope.arr_generales}).then(function(vResult){
+                $http.post('http://localhost/webllantas/server/svrTransacciones.php', {op:202, arrItems:$scope.arr_items, arrGenerales:$scope.arr_generales}).then(function(vResult){
                     vResult = vResult.data.split(',');
                     if(vResult[0]==1){                        
                         window.open("printFac.php?vF=" + vResult[2]  ,"","width=500, height=600");
@@ -204,7 +204,7 @@ appM.controller('appControl1', function($scope,$http) {
 	});
 
 function limpiar_fac(){
-    $http.post('http://192.168.0.254/webllantas/server/svrConsultas.php', {op:103, tienda:'TGU001', estado:1}).then(function(vResult){
+    $http.post('http://localhost/webllantas/server/svrConsultas.php', {op:103, tienda:'TGU001', estado:1}).then(function(vResult){
         vCaja=vResult.data[0];
         $scope.vCajero = vCaja.cajero;
         $scope.vCaja = vCaja.caja;

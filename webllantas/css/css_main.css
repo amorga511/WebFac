@@ -3,6 +3,28 @@ body{
     background-color: #F2F2F2;
 }
 
+.content_menu_interactive{
+	padding: 8px;
+}
+
+.subdiv_menu_interactive{
+	box-shadow: 0px 0px 8px;
+	border-radius: 8px;
+	padding:5px;
+	background-color: #FFF;
+}
+
+.subdiv_menu_interactive:hover{
+	background-color:#E0ECF8;
+	cursor: pointer;
+}
+
+.lbl_menu_int{
+	font-family: 'Georgia';
+	font-size: 1.4em;
+	padding: 2px;
+}
+
 .barra_sup_css{
 	background-color:#000000; /*; #585858;*/
 	height: 50px;
