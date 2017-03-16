@@ -1,0 +1,394 @@
+using System;
+
+namespace NtoW
+{
+	public class convert
+	{
+		private string moneda = "LEMPIRAS";
+
+		private string cero = "CERO";
+
+		private string un = "UN";
+
+		private string dos = "DOS";
+
+		private string tres = "TRES";
+
+		private string cuatro = "CUATRO";
+
+		private string cinco = "CINCO";
+
+		private string seis = "SEIS";
+
+		private string siete = "SIETE";
+
+		private string ocho = "OCHO";
+
+		private string nueve = "NUEVE";
+
+		private string diez = "DIEZ";
+
+		private string veinte = "VEINTE";
+
+		private string veinti = "VEINTI";
+
+		private string treinta = "TREINTA";
+
+		private string cuarenta = "CUARENTA";
+
+		private string cincuenta = "CINCUENTA";
+
+		private string sesenta = "SESENTA";
+
+		private string setenta = "SETENTA";
+
+		private string ochenta = "OCHENTA";
+
+		private string noventa = "NOVENTA";
+
+		private string cien = "CIEN";
+
+		private string ciento = "CIENTO";
+
+		private string cientos = "CIENTOS";
+
+		private string doci = "DO";
+
+		private string tre = "TRE";
+
+		private string qui = "QUINIENTOS";
+
+		private string sete = "SETE";
+
+		private string nove = "NOVE";
+
+		private string strReturn = "";
+
+		public string str_number(double num)
+		{
+			this.strReturn = "";
+			string result;
+			try
+			{
+				if (num > 0.0)
+				{
+					string i = num.ToString();
+					string[] anumero = i.Split(new char[]
+					{
+						'.'
+					});
+					string numero = anumero[0];
+					string decimales;
+					if (anumero.Length > 1)
+					{
+						decimales = anumero[1];
+						if (decimales.Length == 1)
+						{
+							decimales += "0";
+						}
+					}
+					else
+					{
+						decimales = "0";
+					}
+					switch (numero.Length)
+					{
+					case 1:
+						this.strReturn = this.unidades(numero);
+						break;
+					case 2:
+						this.strReturn = this.decenas(numero);
+						break;
+					case 3:
+						this.strReturn = this.centenas(numero);
+						break;
+					case 4:
+						this.strReturn = this.unidades(numero.Substring(0, 1)) + " MIL ";
+						this.strReturn += this.centenas(numero.Substring(1, 3));
+						break;
+					case 5:
+						this.strReturn = this.decenas(numero.Substring(0, 2)) + " MIL ";
+						this.strReturn += this.centenas(numero.Substring(2, 3));
+						break;
+					case 6:
+						this.strReturn = this.centenas(numero.Substring(0, 3)) + " MIL ";
+						this.strReturn += this.centenas(numero.Substring(3, 3));
+						break;
+					case 7:
+						if (numero.Substring(0, 1) == "1")
+						{
+							this.strReturn = this.unidades(numero.Substring(0, 1)) + " MILLON ";
+						}
+						else
+						{
+							this.strReturn = this.unidades(numero.Substring(0, 1)) + " MILLONES ";
+						}
+						this.strReturn = this.strReturn + this.centenas(numero.Substring(1, 3)) + " MIL ";
+						this.strReturn += this.centenas(numero.Substring(4, 3));
+						break;
+					case 8:
+						this.strReturn = this.decenas(numero.Substring(0, 2)) + " MILLONES ";
+						this.strReturn = this.strReturn + this.centenas(numero.Substring(2, 3)) + " MIL ";
+						this.strReturn += this.centenas(numero.Substring(5, 3));
+						break;
+					case 9:
+						this.strReturn = this.centenas(numero.Substring(0, 3)) + " MILLONES ";
+						this.strReturn = this.strReturn + this.centenas(numero.Substring(3, 3)) + " MIL ";
+						this.strReturn += this.centenas(numero.Substring(6, 3));
+						break;
+					case 10:
+						this.strReturn = this.unidades(numero.Substring(0, 1)) + " MIL ";
+						this.strReturn = this.strReturn + this.centenas(numero.Substring(1, 3)) + " MILLONES ";
+						this.strReturn = this.strReturn + this.centenas(numero.Substring(4, 3)) + " MIL ";
+						this.strReturn += this.centenas(numero.Substring(7, 3));
+						break;
+					default:
+						this.strReturn = "NA";
+						break;
+					}
+					string text = this.strReturn;
+					this.strReturn = string.Concat(new string[]
+					{
+						text,
+						" ",
+						this.moneda,
+						" CON ",
+						decimales,
+						"/100 CTVS."
+					});
+					result = this.strReturn;
+				}
+				else
+				{
+					result = this.cero + ' ' + this.moneda;
+				}
+			}
+			catch (Exception ex)
+			{
+				result = ex.ToString();
+			}
+			return result;
+		}
+
+		private string unidades(string digito)
+		{
+			string strdigito = "";
+			switch (digito)
+			{
+			case "1":
+				strdigito = this.un;
+				break;
+			case "2":
+				strdigito = this.dos;
+				break;
+			case "3":
+				strdigito = this.tres;
+				break;
+			case "4":
+				strdigito = this.cuatro;
+				break;
+			case "5":
+				strdigito = this.cinco;
+				break;
+			case "6":
+				strdigito = this.seis;
+				break;
+			case "7":
+				strdigito = this.siete;
+				break;
+			case "8":
+				strdigito = this.ocho;
+				break;
+			case "9":
+				strdigito = this.nueve;
+				break;
+			}
+			return strdigito;
+		}
+
+		private string decenas(string digitod)
+		{
+			string strdigitod = this.unidades(digitod.Substring(1, 1));
+			string text = digitod.Substring(0, 1);
+			switch (text)
+			{
+			case "1":
+				if (strdigitod.Length > 0)
+				{
+					strdigitod = this.decenas_diez(digitod);
+				}
+				else
+				{
+					strdigitod = this.diez;
+				}
+				break;
+			case "2":
+				if (strdigitod.Length > 0)
+				{
+					strdigitod = this.veinti + strdigitod;
+				}
+				else
+				{
+					strdigitod = this.veinte;
+				}
+				break;
+			case "3":
+				if (strdigitod.Length > 0)
+				{
+					strdigitod = this.treinta + " Y " + strdigitod;
+				}
+				else
+				{
+					strdigitod = this.treinta + strdigitod;
+				}
+				break;
+			case "4":
+				if (strdigitod.Length > 0)
+				{
+					strdigitod = this.cuarenta + " Y " + strdigitod;
+				}
+				else
+				{
+					strdigitod = this.cuarenta + strdigitod;
+				}
+				break;
+			case "5":
+				if (strdigitod.Length > 0)
+				{
+					strdigitod = this.cincuenta + " Y " + strdigitod;
+				}
+				else
+				{
+					strdigitod = this.cincuenta + strdigitod;
+				}
+				break;
+			case "6":
+				if (strdigitod.Length > 0)
+				{
+					strdigitod = this.sesenta + " Y " + strdigitod;
+				}
+				else
+				{
+					strdigitod = this.sesenta + strdigitod;
+				}
+				break;
+			case "7":
+				if (strdigitod.Length > 0)
+				{
+					strdigitod = this.setenta + " Y " + strdigitod;
+				}
+				else
+				{
+					strdigitod = this.setenta + strdigitod;
+				}
+				break;
+			case "8":
+				if (strdigitod.Length > 0)
+				{
+					strdigitod = this.ochenta + " Y " + strdigitod;
+				}
+				else
+				{
+					strdigitod = this.ochenta + strdigitod;
+				}
+				break;
+			case "9":
+				if (strdigitod.Length > 0)
+				{
+					strdigitod = this.noventa + " Y " + strdigitod;
+				}
+				else
+				{
+					strdigitod = this.noventa + strdigitod;
+				}
+				break;
+			}
+			return strdigitod;
+		}
+
+		private string centenas(string digitoc)
+		{
+			string strdigitc = this.decenas(digitoc.Substring(1, 2));
+			string text = digitoc.Substring(0, 1);
+			switch (text)
+			{
+			case "1":
+				if (strdigitc.Length > 0)
+				{
+					strdigitc = this.ciento + " " + strdigitc;
+				}
+				else
+				{
+					strdigitc = this.cien + strdigitc;
+				}
+				break;
+			case "2":
+				strdigitc = this.doci + this.cientos + " " + strdigitc;
+				break;
+			case "3":
+				strdigitc = this.tre + this.cientos + " " + strdigitc;
+				break;
+			case "4":
+				strdigitc = this.cuatro + this.cientos + " " + strdigitc;
+				break;
+			case "5":
+				strdigitc = this.qui + " " + strdigitc;
+				break;
+			case "6":
+				strdigitc = this.seis + this.cientos + " " + strdigitc;
+				break;
+			case "7":
+				strdigitc = this.sete + this.cientos + " " + strdigitc;
+				break;
+			case "8":
+				strdigitc = this.ocho + this.cientos + " " + strdigitc;
+				break;
+			case "9":
+				strdigitc = this.nove + this.cientos + " " + strdigitc;
+				break;
+			}
+			return strdigitc;
+		}
+
+		private string decenas_diez(string diezd)
+		{
+			string rdiez = "";
+			if (diezd != null)
+			{
+				if (!(diezd == "11"))
+				{
+					if (!(diezd == "12"))
+					{
+						if (!(diezd == "13"))
+						{
+							if (!(diezd == "14"))
+							{
+								if (diezd == "15")
+								{
+									rdiez = "QUINCE";
+								}
+							}
+							else
+							{
+								rdiez = "CATORCE";
+							}
+						}
+						else
+						{
+							rdiez = "TRECE";
+						}
+					}
+					else
+					{
+						rdiez = "DOCE";
+					}
+				}
+				else
+				{
+					rdiez = "ONCE";
+				}
+			}
+			return rdiez;
+		}
+	}
+}
